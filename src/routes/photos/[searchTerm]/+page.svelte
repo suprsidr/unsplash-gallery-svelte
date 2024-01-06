@@ -6,13 +6,18 @@
 	$: ({ searchTerm } = $page.params);
 </script>
 
+<svelte:head>
+	<title>{searchTerm.toUpperCase()}</title>
+	<meta name="description" content="Photo Gallery" />
+</svelte:head>
+
 <Masonry reset={searchTerm}>
-	{#each photos as photoItem}
+	{#each photos as photo}
 		<div class="container">
-			<a href={`/photos/${searchTerm}/${photoItem.slug}`}
+			<a href={`/photos/${searchTerm}/${photo.slug}`}
 				><img
-					src={photoItem.urls.small}
-					alt={photoItem.description || photoItem.alt_description || 'No description'}
+					src={photo.urls.small}
+					alt={photo.description || photo.alt_description || 'No description'}
 				/></a
 			>
 		</div>

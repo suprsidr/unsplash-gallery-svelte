@@ -5,6 +5,11 @@
 	$: ({ searchTerm } = $page.params);
 </script>
 
+<svelte:head>
+	<title>{photo.description || photo.alt_description || 'No description'}</title>
+	<meta name="description" content="Photo" />
+</svelte:head>
+
 <a
 	href={`/photos/${searchTerm}`}
 	title="Back"
