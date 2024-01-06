@@ -5,7 +5,7 @@
 		gridGap = '0.5em',
 		colWidth = 'minmax(Min(20em, 100%), 1fr)',
 		items = [], // pass in data if it's dynamically updated
-		reset = Date.now();
+		reset = '';
 
 	let grids = [],
 		masonryElement;
@@ -15,7 +15,7 @@
 	}
 
 	export const refreshLayout = async () => {
-		// console.log("REFRESHING LAYOUT")
+		// console.log('REFRESHING LAYOUT');
 		grids.forEach(async (grid) => {
 			/* get the post relayout number of columns */
 			let ncol = getComputedStyle(grid._el).gridTemplateColumns.split(' ').length;
