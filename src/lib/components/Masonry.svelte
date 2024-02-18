@@ -2,15 +2,43 @@
 	// @ts-nocheck
 	export let photos, searchTerm;
 	import { chunkArray } from '$lib/utils';
-	$: items = chunkArray(photos);
+	import { onDestroy, onMount } from 'svelte';
+	$: columns = 3;
+	$: items = chunkArray(photos, columns);
+
+	let divElem;
+
+	const resizeObserver = new window.ResizeObserver((entries) => {
+		for (const entry of entries) {
+			if (entry.contentBoxSize) {
+				const contentBoxSize = entry.contentBoxSize[0];
+				if (columns !== 1 && contentBoxSize.inlineSize < 500) {
+					columns = 1;
+				}
+				if (columns !== 2 && contentBoxSize.inlineSize >= 500 && contentBoxSize.inlineSize < 900) {
+					columns = 2;
+				}
+				if (columns !== 3 && contentBoxSize.inlineSize >= 900) {
+					columns = 3;
+				}
+			}
+		}
+	});
+	onMount(() => {
+		divElem = document.querySelector('.wrapper');
+		resizeObserver.observe(divElem);
+	});
+	onDestroy(() => {
+		resizeObserver.unobserve(divElem);
+	});
 </script>
 
-<h1>{searchTerm.toUpperCase()}</h1>
+<h1>{searchTerm.toUpperCase()}{columns}</h1>
 <div class="wrapper">
-	{#each [0, 1, 2] as idx}
+	{#each [0, 1, 2].slice(0, columns) as idx}
 		<div>
 			{#each items[idx] as photo}
-				<div class="container">
+				<div class="image-container">
 					<a href={`/photos/${searchTerm}/${photo.slug}`}
 						><img
 							src={photo.urls.small}
@@ -24,20 +52,20 @@
 </div>
 
 <style>
-	.container {
+	.image-container {
 		margin-bottom: 8px;
 	}
-	.container img {
+	.image-container img {
 		max-width: 100%;
+		width: 100%;
 		border-radius: 5px;
 		object-fit: contain;
 		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 	}
 	.wrapper {
-		max-width: 100%;
 		margin: 0 auto;
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 		gap: 10px;
 	}
 </style>
