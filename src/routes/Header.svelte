@@ -35,7 +35,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
+		<a href="https://github.com/suprsidr/unsplash-gallery-svelte">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>
