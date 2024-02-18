@@ -5,6 +5,7 @@
 
 	$: ({ photos } = data);
 	$: ({ searchTerm } = $page.params);
+	console.log({ data });
 </script>
 
 <svelte:head>
