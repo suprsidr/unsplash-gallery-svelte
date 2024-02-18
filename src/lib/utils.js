@@ -1,18 +1,13 @@
 const findLowest = (arr) => {
-	let lowest = arr[0];
-	let index = 0;
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i] < lowest) {
-			lowest = arr[i];
-			index = i;
-		}
-	}
+	const sorted = [...arr].sort((a, b) => a - b);
+	let lowest = sorted[0];
+	let index = arr.findIndex((el) => el === lowest);
 	return index;
 };
 
-export const chunkArray = (arr) => {
-	const heightAcc = [0, 0, 0];
-	const acc = { 0: [], 1: [], 2: [] };
+export const chunkArray = (arr, noCols = 3) => {
+	const heightAcc = [0, 0, 0].slice(0, noCols);
+	const acc = [[], [], []].slice(0, noCols);
 	arr.reduce((prev, next) => {
 		const idx = findLowest(heightAcc);
 		prev[idx].push(next);
