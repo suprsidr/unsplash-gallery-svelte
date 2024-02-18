@@ -6,13 +6,15 @@
 <div class="app">
 	<Header />
 
-	<main>
-		<slot />
-	</main>
+	<div class="scroll-area">
+		<main>
+			<slot />
+		</main>
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
+		<footer>
+			<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		</footer>
+	</div>
 </div>
 
 <style>
@@ -20,6 +22,10 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+	}
+	.scroll-area {
+		height: calc(100vh - 48px);
+		overflow-y: auto;
 	}
 
 	main {
