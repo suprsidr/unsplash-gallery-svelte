@@ -32,7 +32,7 @@
 			setTimeout(() => {
 				const el = document.getElementById(slugSignal.value);
 				if (el) {
-					el.scrollIntoView({ behavior: 'smooth' });
+					el.scrollIntoView({ behavior: 'instant' });
 				}
 			}, 100);
 		}
