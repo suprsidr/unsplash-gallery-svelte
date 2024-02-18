@@ -13,6 +13,7 @@
 	const perPage = 30;
 
 	const fetchMore = async () => {
+		if (eod) return;
 		pageNum++;
 		let results = [];
 		const json = await getPhotos({ page: pageNum, query: searchTerm }, window.fetch);
