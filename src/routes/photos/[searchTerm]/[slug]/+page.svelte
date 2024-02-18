@@ -3,6 +3,7 @@
 	export let data;
 	$: ({ photo } = data);
 	$: ({ searchTerm } = $page.params);
+	$: srcSet = `${photo.urls.full} 1920w, ${photo.urls.regular} 1080w, ${photo.urls.small} 400w`;
 </script>
 
 <svelte:head>
@@ -19,7 +20,18 @@
 	}}>Back</a
 >
 <h2>{photo.description || photo.alt_description || 'No description'}</h2>
-<img src={photo.urls.small} alt={photo.description || photo.alt_description || 'No description'} />
+<picture>
+	<source
+		{srcSet}
+		sizes="(max-width: 600px) 400px, (max-width: 1280px) 1080px, (max-width: 1920px) 100vw, 1920px"
+	/>
+	<img
+		src={photo.urls.full}
+		{srcSet}
+		sizes="(max-width: 600px) 400px, (max-width: 1280px) 1080px, (max-width: 1920px) 100vw, 1920px"
+		alt={photo.description || photo.alt_description || 'No description'}
+	/>
+</picture>
 
 <style>
 	img {
