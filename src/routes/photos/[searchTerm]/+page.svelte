@@ -3,12 +3,14 @@
 	import IntersectionObserver from '$lib/components/IntersectionObserver.svelte';
 	import Masonry from '$lib/components/Masonry.svelte';
 	import { getPhotos } from '$lib/services/lambda-service';
+	import { photoArray } from '$lib/signals';
 	export let data;
 
 	$: ({ photos } = data);
 	$: ({ searchTerm } = $page.params);
 	$: pageNum = 1;
 	$: eod = false;
+	photoArray.value = data.photos;
 
 	const perPage = 30;
 
@@ -22,6 +24,7 @@
 		}
 		eod = !json.error && results.length < perPage;
 		photos = [...photos, ...results];
+		photoArray.value = photos;
 	};
 </script>
 
