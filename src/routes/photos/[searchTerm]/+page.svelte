@@ -3,14 +3,17 @@
 	import IntersectionObserver from '$lib/components/IntersectionObserver.svelte';
 	import Masonry from '$lib/components/Masonry.svelte';
 	import { getPhotos } from '$lib/services/lambda-service';
-	import { photoArray } from '$lib/signals';
+	import { pages, photoArray } from '$lib/signals';
 	export let data;
 
 	$: ({ searchTerm } = $page.params);
-	$: pageNum = 1;
 	$: eod = false;
 	// initial
 	if (!photoArray.value[$page.params.searchTerm]) {
+		pages.value = {
+			...pages.value,
+			[$page.params.searchTerm]: 1
+		};
 		photoArray.value = {
 			...photoArray.value,
 			[$page.params.searchTerm]: data.photos
@@ -21,11 +24,27 @@
 
 	const fetchMore = async () => {
 		if (eod) return;
-		pageNum++;
+		pages.value[searchTerm] = pages.value[searchTerm] + 1;
 		let results = [];
-		const json = await getPhotos({ page: pageNum, query: searchTerm }, window.fetch);
+		const json = await getPhotos(
+			{ page: pages.value[searchTerm], query: searchTerm },
+			window.fetch
+		);
 		if (json.results) {
-			results = json.results;
+			results = json.results.map(
+				({ id, slug, description, alt_description, urls, links, likes, user, height, width }) => ({
+					id,
+					slug,
+					description,
+					alt_description,
+					urls,
+					links,
+					likes,
+					user,
+					height,
+					width
+				})
+			);
 		}
 		eod = !json.error && results.length < perPage;
 		const photos = [...photoArray.value[searchTerm], ...results];
