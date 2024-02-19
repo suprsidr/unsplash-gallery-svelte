@@ -6,11 +6,16 @@
 	import { photoArray } from '$lib/signals';
 	export let data;
 
-	$: ({ photos } = data);
 	$: ({ searchTerm } = $page.params);
 	$: pageNum = 1;
 	$: eod = false;
-	photoArray.value = data.photos;
+	// initial
+	if (!photoArray.value[$page.params.searchTerm]) {
+		photoArray.value = {
+			...photoArray.value,
+			[$page.params.searchTerm]: data.photos
+		};
+	}
 
 	const perPage = 30;
 
@@ -23,8 +28,11 @@
 			results = json.results;
 		}
 		eod = !json.error && results.length < perPage;
-		photos = [...photos, ...results];
-		photoArray.value = photos;
+		const photos = [...photoArray.value[searchTerm], ...results];
+		photoArray.value = {
+			...photoArray.value,
+			[searchTerm]: photos
+		};
 	};
 </script>
 
@@ -33,7 +41,7 @@
 	<meta name="description" content="Photo Gallery" />
 </svelte:head>
 
-<Masonry {photos} {searchTerm} />
+<Masonry photos={photoArray.value[searchTerm]} {searchTerm} />
 
 {#if eod}
 	<div>End of Data</div>
