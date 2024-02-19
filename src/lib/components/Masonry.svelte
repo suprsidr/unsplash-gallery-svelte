@@ -1,6 +1,7 @@
 <script>
 	// @ts-nocheck
 	export let photos, searchTerm;
+	import { slugSignal } from '$lib/signals';
 	import { chunkArray } from '$lib/utils';
 	import { onDestroy, onMount } from 'svelte';
 	$: columns = 3;
@@ -27,6 +28,14 @@
 	onMount(() => {
 		divElem = document.querySelector('.wrapper');
 		resizeObserver.observe(divElem);
+		if (slugSignal.value) {
+			setTimeout(() => {
+				const el = document.getElementById(slugSignal.value);
+				if (el) {
+					el.scrollIntoView({ behavior: 'smooth' });
+				}
+			}, 100);
+		}
 	});
 	onDestroy(() => {
 		resizeObserver.unobserve(divElem);
@@ -38,8 +47,8 @@
 	{#each [0, 1, 2].slice(0, columns) as idx}
 		<div>
 			{#each items[idx] as photo}
-				<div class="image-container">
-					<a href={`/photos/${searchTerm}/${photo.slug}`}
+				<div id={photo.slug} class="image-container">
+					<a on:click={(slugSignal.value = photo.slug)} href={`/photos/${searchTerm}/${photo.slug}`}
 						><img
 							src={photo.urls.small}
 							alt={photo.description || photo.alt_description || 'No description'}
