@@ -10,6 +10,19 @@ export async function load({ fetch, params }) {
 	if (photos.error) throw error(404);
 
 	return {
-		photos: photos.results
+		photos: photos.results.map(
+			({ id, slug, description, alt_description, urls, links, likes, user, height, width }) => ({
+				id,
+				slug,
+				description,
+				alt_description,
+				urls,
+				links,
+				likes,
+				user,
+				height,
+				width
+			})
+		)
 	};
 }
