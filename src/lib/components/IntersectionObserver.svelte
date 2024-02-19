@@ -8,6 +8,8 @@
 		threshold: 1.0
 	};
 
+	let target;
+
 	const intersectionObserver = new IntersectionObserver((entries) => {
 		// If intersectionRatio is 0, the target is out of view
 		// and we do not need to do anything.
@@ -19,11 +21,12 @@
 
 	onMount(() => {
 		setTimeout(() => {
-			intersectionObserver.observe(document.querySelector('#observer'));
+			target = document.querySelector('#observer');
+			intersectionObserver.observe(target);
 		}, 1000);
 	});
 	onDestroy(() => {
-		intersectionObserver.unobserve(document.querySelector('#observer'));
+		if (target) intersectionObserver.unobserve(target);
 	});
 </script>
 
