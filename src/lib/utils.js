@@ -5,7 +5,7 @@ const findLowest = (arr) => {
 	return index;
 };
 
-export const chunkArray = (arr, noCols = 3) => {
+export const chunkArray = (arr = [], noCols = 3) => {
 	const heightAcc = [0, 0, 0].slice(0, noCols);
 	const acc = [[], [], []].slice(0, noCols);
 	arr.reduce((prev, next) => {
