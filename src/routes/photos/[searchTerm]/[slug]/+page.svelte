@@ -30,8 +30,16 @@
 		{srcSet}
 		sizes="(max-width: 600px) 400px, (max-width: 1280px) 1080px, (max-width: 1920px) 100vw, 1920px"
 		alt={photo.description || photo.alt_description || 'No description'}
+		style={`width: 100%; aspect-ratio: ${photo.width}/${photo.height}`}
 	/>
 </picture>
+<h3>
+	Photo by: <a
+		href={photo.user.links.html}
+		title={`${photo.user.first_name || ''} ${photo.user.last_name || ''}`}
+		target="_blank">{`${photo.user.first_name || ''} ${photo.user.last_name || ''}`}</a
+	>
+</h3>
 
 <style>
 	img {
