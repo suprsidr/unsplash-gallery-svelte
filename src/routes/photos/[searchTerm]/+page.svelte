@@ -63,7 +63,13 @@
 <Masonry photos={photoArray.value[searchTerm]} {searchTerm} />
 
 {#if eod}
-	<div>End of Data</div>
+	<div><p class="text-center">End of Data</p></div>
 {:else}
 	<IntersectionObserver callback={fetchMore} />
 {/if}
+
+<style>
+	.text-center {
+		text-align: center;
+	}
+</style>
