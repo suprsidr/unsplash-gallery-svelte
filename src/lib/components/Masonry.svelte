@@ -69,7 +69,18 @@
 		width: 100%;
 		border-radius: 5px;
 		object-fit: contain;
-		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+		box-shadow:
+			inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
+			/* shadow ring 👇 */ 0 0 0 1px hsla(0, 0%, 0%, 0.05),
+			/* multiple soft shadows 👇 */ 0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+			0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+			0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+		opacity: 0.9;
+		transition: all 0.2s;
+		&:hover {
+			opacity: 1;
+			transform: scale(1.02);
+		}
 	}
 	.wrapper {
 		margin: 0 auto;
