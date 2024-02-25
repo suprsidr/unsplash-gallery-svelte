@@ -16,7 +16,7 @@ export const getDownloadUrl = async (id, fetch) => {
  * @returns {Promise<{error: string | null, results: photos[]}>}
  */
 export const getPhotos = async ({ page, query }, fetch) => {
-	const response = await fetch(`${LAMBDA_URL}/search/photos/${query}/${page}`);
+	const response = await fetch(`${LAMBDA_URL}/search/photos/${query}/${page || 1}`);
 	return await response.json();
 };
 
@@ -26,17 +26,17 @@ export const getPhotos = async ({ page, query }, fetch) => {
  * @returns {Promise<{error: string | null, results: photos[]}>}
  */
 export const getCollectionList = async ({ page, query }, fetch) => {
-	const response = await fetch(`${LAMBDA_URL}/search/collections/${query}/${page}`);
+	const response = await fetch(`${LAMBDA_URL}/search/collections/${query}/${page || 1}`);
 	return await response.json();
 };
 
 /**
- * @param {{page: number, id: number}} params
+ * @param {{page || 1: number, id: number}} params
  * @param {function} fetch
  * @returns {Promise<{error: string | null, results: photos[]}>}
  */
 export const getCollectionPhotos = async ({ page, id }, fetch) => {
-	const response = await fetch(`${LAMBDA_URL}/collections/${id}/photos/${page}`);
+	const response = await fetch(`${LAMBDA_URL}/collections/${id}/photos/${page || 1}`);
 	return await response.json();
 };
 
@@ -66,6 +66,6 @@ export const getCollectionInfo = async ({ id }, fetch) => {
  * @returns {Promise<{error: string | null, results: photos[]}>}
  */
 export const getUserCollections = async ({ page, userName }, fetch) => {
-	const response = await fetch(`${LAMBDA_URL}/users/${userName}/collections/${page}`);
+	const response = await fetch(`${LAMBDA_URL}/users/${userName}/collections/${page || 1}`);
 	return await response.json();
 };
