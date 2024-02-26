@@ -69,7 +69,7 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
+		--background: rgba(121, 118, 118, 0.7);
 	}
 
 	svg {
@@ -109,7 +109,7 @@
 		top: 0;
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
+		border-top: var(--size) solid var(--color-link);
 	}
 
 	nav a {
@@ -127,6 +127,6 @@
 	}
 
 	a:hover {
-		color: var(--color-theme-1);
+		color: var(--color-link);
 	}
 </style>
