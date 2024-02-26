@@ -1,9 +1,18 @@
 <script>
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 	export let data;
 	$: ({ photo } = data);
 	$: ({ searchTerm } = $page.params);
 	$: srcSet = `${photo.urls.full} 1920w, ${photo.urls.regular} 1080w, ${photo.urls.small} 400w`;
+	onMount(() => {
+		setTimeout(() => {
+			const el = document.querySelector('[title="Back"]');
+			if (el) {
+				el.scrollIntoView({ behavior: 'instant' });
+			}
+		}, 100);
+	});
 </script>
 
 <svelte:head>
@@ -31,6 +40,12 @@
 		sizes="(max-width: 600px) 400px, (max-width: 1280px) 1080px, (max-width: 1920px) 100vw, 1920px"
 		alt={photo.description || photo.alt_description || 'No description'}
 		style={`width: 100%; aspect-ratio: ${photo.width}/${photo.height}`}
+		on:load={() => {
+			const el = document.querySelector('.lds-ellipsis');
+			if (el) {
+				el.style.display = 'none';
+			}
+		}}
 	/>
 	<div class="lds-ellipsis">
 		<div></div>
@@ -49,16 +64,18 @@
 
 <style>
 	picture {
+		display: block;
 		position: relative;
-		display: grid;
-		width: 100%;
-		place-content: center;
 	}
 	img {
 		max-width: 100%;
 		border-radius: 5px;
-		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-		z-index: 10;
+		box-shadow:
+			inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
+			/* shadow ring 👇 */ 0 0 0 1px hsla(0, 0%, 0%, 0.05),
+			/* multiple soft shadows 👇 */ 0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+			0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+			0 3.5px 6px hsla(0, 0%, 0%, 0.09);
 	}
 	.lds-ellipsis {
 		display: inline-block;
@@ -69,8 +86,7 @@
 		bottom: 0;
 		margin: auto;
 		width: 80px;
-		height: 80px;
-		z-index: 0;
+		height: 13px;
 	}
 	.lds-ellipsis div {
 		position: absolute;
@@ -78,7 +94,7 @@
 		width: 13px;
 		height: 13px;
 		border-radius: 50%;
-		background: #fff;
+		background: var(--color-link);
 		animation-timing-function: cubic-bezier(0, 1, 1, 0);
 	}
 	.lds-ellipsis div:nth-child(1) {
