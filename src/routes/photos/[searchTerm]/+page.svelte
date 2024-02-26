@@ -61,6 +61,7 @@
 	<meta name="description" content="Photo Gallery" />
 </svelte:head>
 
+<h1 class="capitalize">{searchTerm}</h1>
 <Masonry photos={photoArray.value[searchTerm]} {searchTerm} />
 
 {#if eod}
@@ -68,3 +69,9 @@
 {:else}
 	<IntersectionObserver callback={fetchMore} />
 {/if}
+
+<style>
+	.capitalize {
+		text-transform: capitalize;
+	}
+</style>

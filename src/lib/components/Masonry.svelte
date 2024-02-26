@@ -42,7 +42,6 @@
 	});
 </script>
 
-<h1>{searchTerm.toUpperCase()}{columns}</h1>
 <div class="wrapper">
 	{#each [0, 1, 2].slice(0, columns) as idx}
 		<div>
