@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import IntersectionObserver from '$lib/components/IntersectionObserver.svelte';
 	import Masonry from '$lib/components/Masonry.svelte';
+	import Toast from '$lib/components/Toast.svelte';
 	import { getPhotos } from '$lib/services/lambda-service';
 	import { pages, photoArray } from '$lib/signals';
 	export let data;
@@ -63,13 +64,7 @@
 <Masonry photos={photoArray.value[searchTerm]} {searchTerm} />
 
 {#if eod}
-	<div><p class="text-center">End of Data</p></div>
+	<Toast message="Sorry no more." />
 {:else}
 	<IntersectionObserver callback={fetchMore} />
 {/if}
-
-<style>
-	.text-center {
-		text-align: center;
-	}
-</style>
